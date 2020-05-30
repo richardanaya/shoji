@@ -18,12 +18,12 @@ fn main() -> Result<(), stretch::Error> {
     let mut shoji = Shoji::new();
     
     let child = shoji.new_node(
-        Style { ..Default::default() },
+        LayoutStyle { ..Default::default() },
         vec![],
     )?;
 
     let node = shoji.new_node(
-        Style {
+        LayoutStyle {
             justify_content: JustifyContent::Center,
             ..Default::default()
         },
