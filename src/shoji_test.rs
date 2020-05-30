@@ -1,7 +1,7 @@
 use crate::*;
 
 #[test]
-fn it_works() {
+fn it_works() -> Result<(), &'static str>{
     let mut shoji = Shoji::new();
 
     let top_child = shoji
@@ -10,8 +10,7 @@ fn it_works() {
                 ..Default::default()
             },
             vec![],
-        )
-        .unwrap();
+        )?;
 
     let bottom_child = shoji
         .new_node(
@@ -19,8 +18,7 @@ fn it_works() {
                 ..Default::default()
             },
             vec![],
-        )
-        .unwrap();
+        )?;
 
     let root = shoji
         .new_node(
@@ -29,11 +27,16 @@ fn it_works() {
                 ..Default::default()
             },
             vec![top_child, bottom_child],
-        )
-        .unwrap();
+        )?;
 
     shoji
-        .compute_layout(root, LayoutSize::new(100.0, 100.0))
-        .unwrap();
-    dbg!(shoji.layout(root).unwrap());
+        .compute_layout(root, LayoutSize::new(100.0, 100.0))?;
+    assert_eq!(shoji.layout(root)?,&Layout {
+        x:0.0,
+        y:0.0,
+        w:100.0,
+        h: 100.0,
+    });
+    dbg!(shoji.layout(root)?);
+    Ok(())
 }

@@ -17,8 +17,13 @@ pub enum Direction {
     LeftRight,
 }
 
-#[derive(Debug)]
-pub struct Layout {}
+#[derive(Debug,PartialEq)]
+pub struct Layout {
+    x: f64,
+    y: f64,
+    w: f64,
+    h: f64,
+}
 
 pub struct Node {
     layout: Option<Layout>,
@@ -63,7 +68,7 @@ impl Shoji {
         }))
     }
 
-    pub fn get_node(&mut self,node_index: Index) -> Result<&mut Node,&'static str> {
+    pub fn get_node(&mut self, node_index: Index) -> Result<&mut Node, &'static str> {
         Ok(&mut self.nodes[node_index])
     }
 
@@ -76,6 +81,13 @@ impl Shoji {
 
     pub fn compute_layout(&mut self, node_index: Index, s: LayoutSize) -> Result<(), &'static str> {
         let node = self.get_node(node_index)?;
+        node.layout = Some(Layout {
+            x: 0.0,
+            y: 0.0,
+            w: s.width.ok_or("cannot create width from undefined value")?,
+            h: s.height
+                .ok_or("cannot create height from undefined value")?,
+        });
         let children = node.children.clone();
         match node.style.direction {
             Direction::LeftRight => {
@@ -83,37 +95,55 @@ impl Shoji {
                 let height = s.height;
                 match width {
                     Some(w) => {
-                        let child_width = w/children.len() as f64;
-                        for c in children.iter() {
-                            self.compute_layout(*c, LayoutSize{
-                                width:Some(child_width),
-                                height
-                            })?;
+                        let child_width = w / children.len() as f64;
+                        for (i, c) in children.iter().enumerate() {
+                            self.compute_layout(
+                                *c,
+                                LayoutSize {
+                                    width: Some(child_width),
+                                    height,
+                                },
+                            )?;
+                            let child_node = self.get_node(*c)?;
+                            match child_node.layout.as_mut() {
+                                Some(l) => {
+                                    l.x = i as f64 * child_width;
+                                    l.y = 0.0;
+                                }
+                                None => return Err("something went wrong"),
+                            }
                         }
                         Ok(())
-                    },
-                    None => {
-                        Err("cannot compute layout of LeftRight without defined width")
                     }
+                    None => Err("cannot compute layout of LeftRight without defined width"),
                 }
-            },
+            }
             Direction::TopBottom => {
                 let width = s.width;
                 let height = s.height;
                 match height {
                     Some(h) => {
-                        let child_height = h/children.len() as f64;
-                        for c in children.iter() {
-                            self.compute_layout(*c, LayoutSize{
-                                width,
-                                height:Some(child_height)
-                            })?;
+                        let child_height = h / children.len() as f64;
+                        for (i, c) in children.iter().enumerate() {
+                            self.compute_layout(
+                                *c,
+                                LayoutSize {
+                                    width,
+                                    height: Some(child_height),
+                                },
+                            )?;
+                            let child_node = self.get_node(*c)?;
+                            match child_node.layout.as_mut() {
+                                Some(l) => {
+                                    l.x = 0.0;
+                                    l.y = i as f64 * child_height;
+                                }
+                                None => return Err("something went wrong"),
+                            }
                         }
                         Ok(())
-                    },
-                    None => {
-                        Err("cannot compute layout of TopBottom without defined width")
                     }
+                    None => Err("cannot compute layout of TopBottom without defined width"),
                 }
             }
         }
