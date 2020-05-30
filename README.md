@@ -24,7 +24,7 @@ fn main() -> Result<(), stretch::Error> {
 
     let node = shoji.new_node(
         LayoutStyle {
-            justify_content: JustifyContent::Center,
+            direction: Direction::TopBottom,
             ..Default::default()
         },
         vec![child],
