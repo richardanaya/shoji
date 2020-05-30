@@ -4,7 +4,7 @@ use crate::*;
 fn it_works() {
     let mut shoji = Shoji::new();
 
-    let child = shoji
+    let top_child = shoji
         .new_node(
             LayoutStyle {
                 ..Default::default()
@@ -13,16 +13,27 @@ fn it_works() {
         )
         .unwrap();
 
-    let node = shoji
+    let bottom_child = shoji
+        .new_node(
+            LayoutStyle {
+                ..Default::default()
+            },
+            vec![],
+        )
+        .unwrap();
+
+    let root = shoji
         .new_node(
             LayoutStyle {
                 direction: Direction::TopBottom,
                 ..Default::default()
             },
-            vec![child],
+            vec![top_child, bottom_child],
         )
         .unwrap();
 
-    shoji.compute_layout(node, Size::undefined()).unwrap();
-    dbg!(shoji.layout(node).unwrap());
+    shoji
+        .compute_layout(root, LayoutSize::new(100.0, 100.0))
+        .unwrap();
+    dbg!(shoji.layout(root).unwrap());
 }

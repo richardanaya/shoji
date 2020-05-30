@@ -30,11 +30,17 @@ pub struct Shoji {
     nodes: Arena<Node>,
 }
 
-pub struct Size {}
+pub struct LayoutSize {
+    width: Option<f64>,
+    height: Option<f64>,
+}
 
-impl Size {
-    pub fn undefined() -> Size {
-        Size {}
+impl LayoutSize {
+    pub fn new(w: f64, h: f64) -> LayoutSize {
+        LayoutSize {
+            width: Some(w),
+            height: Some(h),
+        }
     }
 }
 
@@ -64,7 +70,7 @@ impl Shoji {
         }
     }
 
-    pub fn compute_layout(&mut self, i: Index, s: Size) -> Result<(), &'static str> {
+    pub fn compute_layout(&mut self, i: Index, s: LayoutSize) -> Result<(), &'static str> {
         Ok(())
     }
 }
