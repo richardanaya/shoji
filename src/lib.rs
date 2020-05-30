@@ -1,3 +1,7 @@
+#![no_std]
+extern crate alloc;
+use alloc::vec::Vec;
+
 use generational_arena::{Arena, Index};
 
 pub struct LayoutStyle {

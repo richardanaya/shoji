@@ -1,4 +1,5 @@
 use crate::*;
+use alloc::vec::Vec;
 
 #[test]
 fn it_works() -> Result<(), &'static str> {
@@ -8,14 +9,33 @@ fn it_works() -> Result<(), &'static str> {
         LayoutStyle {
             ..Default::default()
         },
-        vec![],
+        Vec::new(),
+    )?;
+
+    let bottom_left_child = shoji.new_node(
+        LayoutStyle {
+            ..Default::default()
+        },
+        Vec::new(),
+    )?;
+
+    let bottom_right_child = shoji.new_node(
+        LayoutStyle {
+            ..Default::default()
+        },
+        Vec::new(),
     )?;
 
     let bottom_child = shoji.new_node(
         LayoutStyle {
             ..Default::default()
         },
-        vec![],
+        {
+            let mut v = Vec::new();
+            v.push(bottom_left_child);
+            v.push(bottom_right_child);
+            v
+        },
     )?;
 
     let root = shoji.new_node(
@@ -23,7 +43,12 @@ fn it_works() -> Result<(), &'static str> {
             direction: Direction::TopBottom,
             ..Default::default()
         },
-        vec![top_child, bottom_child],
+        {
+            let mut v = Vec::new();
+            v.push(top_child);
+            v.push(bottom_child);
+            v
+        },
     )?;
 
     shoji.compute_layout(root, LayoutSize::new(100.0, 100.0))?;
@@ -36,7 +61,7 @@ fn it_works() -> Result<(), &'static str> {
             h: 100.0,
         }
     );
-    dbg!(shoji.layout(root)?);
+
     assert_eq!(
         shoji.layout(top_child)?,
         &Layout {
@@ -46,7 +71,7 @@ fn it_works() -> Result<(), &'static str> {
             h: 50.0,
         }
     );
-    dbg!(shoji.layout(top_child)?);
+
     assert_eq!(
         shoji.layout(bottom_child)?,
         &Layout {
@@ -56,6 +81,26 @@ fn it_works() -> Result<(), &'static str> {
             h: 50.0,
         }
     );
-    dbg!(shoji.layout(bottom_child)?);
+
+    assert_eq!(
+        shoji.layout(bottom_left_child)?,
+        &Layout {
+            x: 0.0,
+            y: 0.0,
+            w: 50.0,
+            h: 50.0,
+        }
+    );
+
+    assert_eq!(
+        shoji.layout(bottom_right_child)?,
+        &Layout {
+            x: 50.0,
+            y: 0.0,
+            w: 50.0,
+            h: 50.0,
+        }
+    );
+
     Ok(())
 }
