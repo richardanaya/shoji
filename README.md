@@ -15,14 +15,14 @@ shoji = "0.0"
 use shoji::*;
 
 fn main() -> Result<(), stretch::Error> {
-    let mut shoji = Node::new();
+    let mut root = Node::new();
     
     let child = shoji.new_node(
         Style { ..Default::default() },
         vec![],
     )?;
 
-    let node = shoji.new_node(
+    let node = root.new_node(
         Style {
             justify_content: JustifyContent::Center,
             ..Default::default()
@@ -30,8 +30,8 @@ fn main() -> Result<(), stretch::Error> {
         vec![child],
     )?;
 
-    shoji.compute_layout(node, Size::undefined())?;
-    dbg!(shoji.layout(node)?);
+    root.compute_layout(node, Size::undefined())?;
+    dbg!(root.layout(node)?);
 }
 ```
 
