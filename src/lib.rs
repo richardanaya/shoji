@@ -4,6 +4,8 @@ use alloc::vec::Vec;
 
 use generational_arena::{Arena, Index};
 
+pub type NodeIndex = Index;
+
 pub struct LayoutStyle {
     pub direction: Direction,
 }
@@ -32,7 +34,7 @@ pub struct Layout {
 pub struct Node {
     layout: Option<Layout>,
     style: LayoutStyle,
-    children: Vec<Index>,
+    children: Vec<NodeIndex>,
 }
 
 pub struct Shoji {
@@ -63,8 +65,8 @@ impl Shoji {
     pub fn new_node(
         &mut self,
         style: LayoutStyle,
-        children: Vec<Index>,
-    ) -> Result<Index, &'static str> {
+        children: Vec<NodeIndex>,
+    ) -> Result<NodeIndex, &'static str> {
         Ok(self.nodes.insert(Node {
             layout: None,
             style,
@@ -72,18 +74,22 @@ impl Shoji {
         }))
     }
 
-    pub fn get_node(&mut self, node_index: Index) -> Result<&mut Node, &'static str> {
+    pub fn get_node(&mut self, node_index: NodeIndex) -> Result<&mut Node, &'static str> {
         Ok(&mut self.nodes[node_index])
     }
 
-    pub fn layout(&self, i: Index) -> Result<&Layout, &'static str> {
+    pub fn layout(&self, i: NodeIndex) -> Result<&Layout, &'static str> {
         match &self.nodes[i].layout {
             Some(l) => Ok(l),
             None => Err("layout has not been calculated yet"),
         }
     }
 
-    pub fn compute_layout(&mut self, node_index: Index, s: LayoutSize) -> Result<(), &'static str> {
+    pub fn compute_layout(
+        &mut self,
+        node_index: NodeIndex,
+        s: LayoutSize,
+    ) -> Result<(), &'static str> {
         let node = self.get_node(node_index)?;
         node.layout = Some(Layout {
             x: 0.0,
