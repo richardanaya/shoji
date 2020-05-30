@@ -38,5 +38,19 @@ fn it_works() -> Result<(), &'static str>{
         h: 100.0,
     });
     dbg!(shoji.layout(root)?);
+    assert_eq!(shoji.layout(top_child)?,&Layout {
+        x:0.0,
+        y:0.0,
+        w:100.0,
+        h: 50.0,
+    });
+    dbg!(shoji.layout(top_child)?);
+    assert_eq!(shoji.layout(bottom_child)?,&Layout {
+        x:0.0,
+        y:50.0,
+        w:100.0,
+        h: 50.0,
+    });
+    dbg!(shoji.layout(bottom_child)?);
     Ok(())
 }
