@@ -17,7 +17,7 @@ pub enum Direction {
     LeftRight,
 }
 
-#[derive(Debug,PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct Layout {
     x: f64,
     y: f64,
@@ -89,61 +89,78 @@ impl Shoji {
                 .ok_or("cannot create height from undefined value")?,
         });
         let children = node.children.clone();
-        match node.style.direction {
-            Direction::LeftRight => {
-                let width = s.width;
-                let height = s.height;
-                match width {
-                    Some(w) => {
-                        let child_width = w / children.len() as f64;
-                        for (i, c) in children.iter().enumerate() {
-                            self.compute_layout(
-                                *c,
-                                LayoutSize {
-                                    width: Some(child_width),
-                                    height,
-                                },
-                            )?;
-                            let child_node = self.get_node(*c)?;
-                            match child_node.layout.as_mut() {
-                                Some(l) => {
-                                    l.x = i as f64 * child_width;
-                                    l.y = 0.0;
-                                }
-                                None => return Err("something went wrong"),
-                            }
-                        }
-                        Ok(())
-                    }
-                    None => Err("cannot compute layout of LeftRight without defined width"),
+        let num_children = children.len();
+        if num_children == 0 {
+            // do nothing
+            Ok(())
+        } else if num_children == 1 {
+            self.compute_layout(children[0], s)?;
+            let child_node = self.get_node(children[0])?;
+            match child_node.layout.as_mut() {
+                Some(l) => {
+                    l.x = 0.0;
+                    l.y = 0.0;
+                    Ok(())
                 }
+                None => return Err("something went wrong"),
             }
-            Direction::TopBottom => {
-                let width = s.width;
-                let height = s.height;
-                match height {
-                    Some(h) => {
-                        let child_height = h / children.len() as f64;
-                        for (i, c) in children.iter().enumerate() {
-                            self.compute_layout(
-                                *c,
-                                LayoutSize {
-                                    width,
-                                    height: Some(child_height),
-                                },
-                            )?;
-                            let child_node = self.get_node(*c)?;
-                            match child_node.layout.as_mut() {
-                                Some(l) => {
-                                    l.x = 0.0;
-                                    l.y = i as f64 * child_height;
+        } else {
+            match node.style.direction {
+                Direction::LeftRight => {
+                    let width = s.width;
+                    let height = s.height;
+                    match width {
+                        Some(w) => {
+                            let child_width = w / children.len() as f64;
+                            for (i, c) in children.iter().enumerate() {
+                                self.compute_layout(
+                                    *c,
+                                    LayoutSize {
+                                        width: Some(child_width),
+                                        height,
+                                    },
+                                )?;
+                                let child_node = self.get_node(*c)?;
+                                match child_node.layout.as_mut() {
+                                    Some(l) => {
+                                        l.x = i as f64 * child_width;
+                                        l.y = 0.0;
+                                    }
+                                    None => return Err("something went wrong"),
                                 }
-                                None => return Err("something went wrong"),
                             }
+                            Ok(())
                         }
-                        Ok(())
+                        None => Err("cannot compute layout of LeftRight without defined width"),
                     }
-                    None => Err("cannot compute layout of TopBottom without defined width"),
+                }
+                Direction::TopBottom => {
+                    let width = s.width;
+                    let height = s.height;
+                    match height {
+                        Some(h) => {
+                            let child_height = h / children.len() as f64;
+                            for (i, c) in children.iter().enumerate() {
+                                self.compute_layout(
+                                    *c,
+                                    LayoutSize {
+                                        width,
+                                        height: Some(child_height),
+                                    },
+                                )?;
+                                let child_node = self.get_node(*c)?;
+                                match child_node.layout.as_mut() {
+                                    Some(l) => {
+                                        l.x = 0.0;
+                                        l.y = i as f64 * child_height;
+                                    }
+                                    None => return Err("something went wrong"),
+                                }
+                            }
+                            Ok(())
+                        }
+                        None => Err("cannot compute layout of TopBottom without defined width"),
+                    }
                 }
             }
         }
