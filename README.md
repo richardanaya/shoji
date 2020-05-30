@@ -17,7 +17,7 @@ use shoji::*;
 fn main() -> Result<(), stretch::Error> {
     let mut root = Node::new();
     
-    let child = shoji.new_node(
+    let child = root.new_node(
         Style { ..Default::default() },
         vec![],
     )?;
