@@ -25,10 +25,10 @@ pub enum Direction {
 
 #[derive(Debug, PartialEq)]
 pub struct Layout {
-    x: f64,
-    y: f64,
-    w: f64,
-    h: f64,
+    pub x: f64,
+    pub y: f64,
+    pub w: f64,
+    pub h: f64,
 }
 
 pub struct Node {
@@ -78,7 +78,7 @@ impl Shoji {
         Ok(&mut self.nodes[node_index])
     }
 
-    pub fn layout(&self, i: NodeIndex) -> Result<&Layout, &'static str> {
+    pub fn get_layout(&self, i: NodeIndex) -> Result<&Layout, &'static str> {
         match &self.nodes[i].layout {
             Some(l) => Ok(l),
             None => Err("layout has not been calculated yet"),
