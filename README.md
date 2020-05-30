@@ -14,7 +14,7 @@ shoji = "0.0"
 ```rust
 use shoji::*;
 
-fn main() -> Result<(), stretch::Error> {
+fn main() -> Result<(), &'static str> {
     let mut shoji = Shoji::new();
     
     let child = shoji.new_node(
