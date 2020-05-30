@@ -16,7 +16,7 @@ fn it_works() {
     let node = shoji
         .new_node(
             LayoutStyle {
-                justify_content: JustifyContent::Center,
+                direction: Direction::TopBottom,
                 ..Default::default()
             },
             vec![child],

@@ -1,19 +1,20 @@
 use generational_arena::{Arena, Index};
 
 pub struct LayoutStyle {
-    justify_content: JustifyContent,
+    pub direction: Direction,
 }
 
 impl Default for LayoutStyle {
     fn default() -> Self {
         LayoutStyle {
-            justify_content: JustifyContent::Center,
+            direction: Direction::LeftRight,
         }
     }
 }
 
-pub enum JustifyContent {
-    Center,
+pub enum Direction {
+    TopBottom,
+    LeftRight,
 }
 
 #[derive(Debug)]
@@ -32,7 +33,7 @@ pub struct Shoji {
 pub struct Size {}
 
 impl Size {
-    fn undefined() -> Size {
+    pub fn undefined() -> Size {
         Size {}
     }
 }
