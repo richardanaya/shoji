@@ -31,7 +31,7 @@ fn main() -> Result<(), &'static str> {
     );
 
     shoji.compute_layout(node,  LayoutSize::new(100.0, 100.0))?;
-    dbg!(shoji.layout(node)?);
+    dbg!(shoji.layout(node));
 }
 ```
 
