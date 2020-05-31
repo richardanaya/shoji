@@ -2,7 +2,7 @@
 
 <a href="https://docs.rs/shoji"><img src="https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square" alt="docs.rs docs" /></a>
 
-A vbox/hbox layout library implemented in Rust.  Shoji allows your layout tree and it's calculations to be separate from your render tree. It's built for speed and style.
+A vbox/hbox layout library implemented in Rust.  `shoji` allows your layout tree and it's calculations to be separate from your render tree. It's built for speed and style.
 
 ```rust
 [dependencies]
