@@ -16,24 +16,36 @@ use shoji::*;
 
 fn main() -> Result<(), &'static str> {
     let mut shoji = Shoji::new();
-    
-    let child = shoji.new_node(
-        LayoutStyle { ..Default::default() },
-        vec![],
+
+    // Put together layout
+    let top = shoji.new_node(LayoutStyle::default(),vec![]);
+
+    let bottom_left = shoji.new_node(LayoutStyle::default(),vec![]);
+    let bottom_right = shoji.new_node(LayoutStyle::default(),vec![]);
+
+    let bottom = shoji.new_node(
+        LayoutStyle { direction: Direction:LeftRight },
+        vec![bottom_left, bottom_right],
     );
 
-    let node = shoji.new_node(
-        LayoutStyle {
-            direction: Direction::TopBottom,
-            ..Default::default()
-        },
-        vec![child],
+    let root = shoji.new_node(
+        LayoutStyle { direction: Direction:TopDown },
+        vec![top, bottom],
     );
 
-    shoji.compute_layout(node,  LayoutSize::new(100.0, 100.0))?;
-    dbg!(shoji.layout(node));
+    // Compute all layouts
+    shoji.compute_layout(root, LayoutSize::new(100.0, 100.0))?;
+
+    // Get the calculated layout
+    dbg!(shoji.layout(top)?);
 }
 ```
+
+Calculations will give absolute values:
+
+<p align="center">
+  <img width="460" height="300" src="shoji.png">
+</p>
 
 # License
 
