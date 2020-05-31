@@ -44,7 +44,7 @@ fn main() -> Result<(), &'static str> {
 Calculations will give absolute values:
 
 <p align="center">
-  <img width="460" height="300" src="shoji.png">
+  <img width="460" src="shoji.png">
 </p>
 
 # License
