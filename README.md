@@ -6,7 +6,7 @@ A vbox/hbox layout library implemented in Rust.
 
 ```rust
 [dependencies]
-shoji = "0.0"
+shoji = "0.1"
 ```
 
 # Example
