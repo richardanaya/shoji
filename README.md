@@ -41,7 +41,7 @@ fn main() -> Result<(), &'static str> {
 }
 ```
 
-Calculations will give absolute values:
+Calculated layouts will have absolute values:
 
 <p align="center">
   <img width="460" src="shoji.png">
