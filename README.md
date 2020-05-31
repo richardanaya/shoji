@@ -11,7 +11,7 @@ shoji = "0.1"
 
 # Example
 
-In `shoji` your build a graph of layout nodes each with a style that determines:
+In `shoji` you build a graph of layout nodes each with a style that determines:
 
 * direction child condent flows
 * margin/padding
