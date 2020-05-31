@@ -32,9 +32,9 @@ pub struct Layout {
 }
 
 pub struct Node {
-    layout: Option<Layout>,
-    style: LayoutStyle,
-    children: Vec<NodeIndex>,
+    pub fnlayout: Option<Layout>,
+    pub style: LayoutStyle,
+    pub children: Vec<NodeIndex>,
 }
 
 pub struct Shoji {
