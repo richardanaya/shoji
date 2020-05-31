@@ -86,10 +86,20 @@ impl Shoji {
         node_index: NodeIndex,
         s: LayoutSize,
     ) -> Result<(), &'static str> {
+        self.compute_layout_helper(0.0, 0.0, node_index, s)
+    }
+
+    fn compute_layout_helper(
+        &mut self,
+        x: f64,
+        y: f64,
+        node_index: NodeIndex,
+        s: LayoutSize,
+    ) -> Result<(), &'static str> {
         let node = self.get_node(node_index);
         node.layout = Some(Layout {
-            x: 0.0,
-            y: 0.0,
+            x: x,
+            y: y,
             w: s.width.ok_or("cannot create width from undefined value")?,
             h: s.height
                 .ok_or("cannot create height from undefined value")?,
@@ -104,8 +114,8 @@ impl Shoji {
             let child_node = self.get_node(children[0]);
             match child_node.layout.as_mut() {
                 Some(l) => {
-                    l.x = 0.0;
-                    l.y = 0.0;
+                    l.x = x;
+                    l.y = y;
                     Ok(())
                 }
                 None => return Err("something went wrong"),
@@ -129,8 +139,8 @@ impl Shoji {
                                 let child_node = self.get_node(*c);
                                 match child_node.layout.as_mut() {
                                     Some(l) => {
-                                        l.x = i as f64 * child_width;
-                                        l.y = 0.0;
+                                        l.x = x + i as f64 * child_width;
+                                        l.y = y;
                                     }
                                     None => return Err("something went wrong"),
                                 }
@@ -157,8 +167,8 @@ impl Shoji {
                                 let child_node = self.get_node(*c);
                                 match child_node.layout.as_mut() {
                                     Some(l) => {
-                                        l.x = 0.0;
-                                        l.y = i as f64 * child_height;
+                                        l.x = x;
+                                        l.y = y + i as f64 * child_height;
                                     }
                                     None => return Err("something went wrong"),
                                 }
