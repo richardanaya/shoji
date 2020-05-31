@@ -86,7 +86,7 @@ fn it_works() -> Result<(), &'static str> {
         shoji.get_layout(bottom_left_child)?,
         &Layout {
             x: 0.0,
-            y: 0.0,
+            y: 50.0,
             w: 50.0,
             h: 50.0,
         }
@@ -96,7 +96,7 @@ fn it_works() -> Result<(), &'static str> {
         shoji.get_layout(bottom_right_child)?,
         &Layout {
             x: 50.0,
-            y: 0.0,
+            y: 50.0,
             w: 50.0,
             h: 50.0,
         }

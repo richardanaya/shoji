@@ -110,16 +110,8 @@ impl Shoji {
             // do nothing
             Ok(())
         } else if num_children == 1 {
-            self.compute_layout(children[0], s)?;
-            let child_node = self.get_node(children[0]);
-            match child_node.layout.as_mut() {
-                Some(l) => {
-                    l.x = x;
-                    l.y = y;
-                    Ok(())
-                }
-                None => return Err("something went wrong"),
-            }
+            self.compute_layout_helper(x, y, children[0], s)?;
+            Ok(())
         } else {
             match node.style.direction {
                 Direction::LeftRight => {
@@ -129,21 +121,15 @@ impl Shoji {
                         Some(w) => {
                             let child_width = w / children.len() as f64;
                             for (i, c) in children.iter().enumerate() {
-                                self.compute_layout(
+                                self.compute_layout_helper(
+                                    x + i as f64 * child_width,
+                                    y,
                                     *c,
                                     LayoutSize {
                                         width: Some(child_width),
                                         height,
                                     },
                                 )?;
-                                let child_node = self.get_node(*c);
-                                match child_node.layout.as_mut() {
-                                    Some(l) => {
-                                        l.x = x + i as f64 * child_width;
-                                        l.y = y;
-                                    }
-                                    None => return Err("something went wrong"),
-                                }
                             }
                             Ok(())
                         }
@@ -157,21 +143,15 @@ impl Shoji {
                         Some(h) => {
                             let child_height = h / children.len() as f64;
                             for (i, c) in children.iter().enumerate() {
-                                self.compute_layout(
+                                self.compute_layout_helper(
+                                    x,
+                                    y + i as f64 * child_height,
                                     *c,
                                     LayoutSize {
                                         width,
                                         height: Some(child_height),
                                     },
                                 )?;
-                                let child_node = self.get_node(*c);
-                                match child_node.layout.as_mut() {
-                                    Some(l) => {
-                                        l.x = x;
-                                        l.y = y + i as f64 * child_height;
-                                    }
-                                    None => return Err("something went wrong"),
-                                }
                             }
                             Ok(())
                         }
