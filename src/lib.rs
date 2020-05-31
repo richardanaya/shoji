@@ -62,20 +62,16 @@ impl Shoji {
         }
     }
 
-    pub fn new_node(
-        &mut self,
-        style: LayoutStyle,
-        children: Vec<NodeIndex>,
-    ) -> Result<NodeIndex, &'static str> {
-        Ok(self.nodes.insert(Node {
+    pub fn new_node(&mut self, style: LayoutStyle, children: Vec<NodeIndex>) -> NodeIndex {
+        self.nodes.insert(Node {
             layout: None,
             style,
             children,
-        }))
+        })
     }
 
-    pub fn get_node(&mut self, node_index: NodeIndex) -> Result<&mut Node, &'static str> {
-        Ok(&mut self.nodes[node_index])
+    pub fn get_node(&mut self, node_index: NodeIndex) -> &mut Node {
+        &mut self.nodes[node_index]
     }
 
     pub fn get_layout(&self, i: NodeIndex) -> Result<&Layout, &'static str> {
@@ -90,7 +86,7 @@ impl Shoji {
         node_index: NodeIndex,
         s: LayoutSize,
     ) -> Result<(), &'static str> {
-        let node = self.get_node(node_index)?;
+        let node = self.get_node(node_index);
         node.layout = Some(Layout {
             x: 0.0,
             y: 0.0,
@@ -105,7 +101,7 @@ impl Shoji {
             Ok(())
         } else if num_children == 1 {
             self.compute_layout(children[0], s)?;
-            let child_node = self.get_node(children[0])?;
+            let child_node = self.get_node(children[0]);
             match child_node.layout.as_mut() {
                 Some(l) => {
                     l.x = 0.0;
@@ -130,7 +126,7 @@ impl Shoji {
                                         height,
                                     },
                                 )?;
-                                let child_node = self.get_node(*c)?;
+                                let child_node = self.get_node(*c);
                                 match child_node.layout.as_mut() {
                                     Some(l) => {
                                         l.x = i as f64 * child_width;
@@ -158,7 +154,7 @@ impl Shoji {
                                         height: Some(child_height),
                                     },
                                 )?;
-                                let child_node = self.get_node(*c)?;
+                                let child_node = self.get_node(*c);
                                 match child_node.layout.as_mut() {
                                     Some(l) => {
                                         l.x = 0.0;

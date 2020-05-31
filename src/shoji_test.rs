@@ -10,21 +10,21 @@ fn it_works() -> Result<(), &'static str> {
             ..Default::default()
         },
         Vec::new(),
-    )?;
+    );
 
     let bottom_left_child = shoji.new_node(
         LayoutStyle {
             ..Default::default()
         },
         Vec::new(),
-    )?;
+    );
 
     let bottom_right_child = shoji.new_node(
         LayoutStyle {
             ..Default::default()
         },
         Vec::new(),
-    )?;
+    );
 
     let bottom_child = shoji.new_node(
         LayoutStyle {
@@ -36,7 +36,7 @@ fn it_works() -> Result<(), &'static str> {
             v.push(bottom_right_child);
             v
         },
-    )?;
+    );
 
     let root = shoji.new_node(
         LayoutStyle {
@@ -49,11 +49,11 @@ fn it_works() -> Result<(), &'static str> {
             v.push(bottom_child);
             v
         },
-    )?;
+    );
 
     shoji.compute_layout(root, LayoutSize::new(100.0, 100.0))?;
     assert_eq!(
-        shoji.layout(root)?,
+        shoji.get_layout(root)?,
         &Layout {
             x: 0.0,
             y: 0.0,
@@ -63,7 +63,7 @@ fn it_works() -> Result<(), &'static str> {
     );
 
     assert_eq!(
-        shoji.layout(top_child)?,
+        shoji.get_layout(top_child)?,
         &Layout {
             x: 0.0,
             y: 0.0,
@@ -73,7 +73,7 @@ fn it_works() -> Result<(), &'static str> {
     );
 
     assert_eq!(
-        shoji.layout(bottom_child)?,
+        shoji.get_layout(bottom_child)?,
         &Layout {
             x: 0.0,
             y: 50.0,
@@ -83,7 +83,7 @@ fn it_works() -> Result<(), &'static str> {
     );
 
     assert_eq!(
-        shoji.layout(bottom_left_child)?,
+        shoji.get_layout(bottom_left_child)?,
         &Layout {
             x: 0.0,
             y: 0.0,
@@ -93,7 +93,7 @@ fn it_works() -> Result<(), &'static str> {
     );
 
     assert_eq!(
-        shoji.layout(bottom_right_child)?,
+        shoji.get_layout(bottom_right_child)?,
         &Layout {
             x: 50.0,
             y: 0.0,
