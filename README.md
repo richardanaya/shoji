@@ -37,7 +37,7 @@ fn main() -> Result<(), &'static str> {
     shoji.compute_layout(root, LayoutSize::new(100.0, 100.0))?;
 
     // Get the calculated layout
-    dbg!(shoji.layout(top)?);
+    dbg!(shoji.layout(top));
 }
 ```
 
