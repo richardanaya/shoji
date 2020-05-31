@@ -11,6 +11,13 @@ shoji = "0.1"
 
 # Example
 
+In `shoji` your build a graph of layout nodes each with a style that determines:
+
+* direction child condent flows
+* margin/padding
+* alignment
+* etc.
+
 ```rust
 use shoji::*;
 
@@ -41,7 +48,7 @@ fn main() -> Result<(), &'static str> {
 }
 ```
 
-Calculated layouts will have absolute values:
+when you `compute_layout` to a constrained size, all layout nodes will have layout calculations with absolute values:
 
 <p align="center">
   <img width="460" src="shoji.png">
