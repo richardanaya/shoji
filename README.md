@@ -20,7 +20,7 @@ fn main() -> Result<(), &'static str> {
     let child = shoji.new_node(
         LayoutStyle { ..Default::default() },
         vec![],
-    )?;
+    );
 
     let node = shoji.new_node(
         LayoutStyle {
@@ -28,9 +28,9 @@ fn main() -> Result<(), &'static str> {
             ..Default::default()
         },
         vec![child],
-    )?;
+    );
 
-    shoji.compute_layout(node, Size::undefined())?;
+    shoji.compute_layout(node,  LayoutSize::new(100.0, 100.0))?;
     dbg!(shoji.layout(node)?);
 }
 ```
