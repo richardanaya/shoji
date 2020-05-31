@@ -13,7 +13,7 @@ shoji = "0.1"
 
 In `shoji` you build a graph of layout nodes each with a style that determines:
 
-* direction child condent flows
+* direction child content flows
 * margin/padding
 * alignment
 * etc.
