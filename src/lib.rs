@@ -32,7 +32,7 @@ pub struct Layout {
 }
 
 pub struct Node {
-    pub fnlayout: Option<Layout>,
+    pub layout: Option<Layout>,
     pub style: LayoutStyle,
     pub children: Vec<NodeIndex>,
 }
